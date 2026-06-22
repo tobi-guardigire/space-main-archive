@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hth · 知识库入口 · 再次访问与收藏指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: #f4f8fb;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+        .main-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+        /* 顶部导航/标识 */
+        .top-identity {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .top-identity .badge {
+            background: #0f766e;
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        .top-identity .label {
+            color: #2d3e50;
+            font-size: 0.9rem;
+            font-weight: 400;
+            border-left: 2px solid #bcd4de;
+            padding-left: 0.8rem;
+        }
+        /* hero 段落 */
+        .hero-note {
+            background: #ffffff;
+            border-left: 5px solid #0d9488;
+            padding: 1.8rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 6px 14px rgba(13, 148, 136, 0.06);
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .hero-note h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
+        }
+        .hero-note h1 span {
+            color: #0d9488;
+        }
+        .hero-note p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #1e293b;
+            max-width: 700px;
+        }
+        .hero-note .meta-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            font-size: 0.9rem;
+            color: #475569;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1rem;
+            margin-top: 0.2rem;
+        }
+        .meta-line span i {
+            font-style: normal;
+            background: #eef2f6;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+        }
+        /* 目录感网格 — 卡片区 */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+        .card-item {
+            background: white;
+            border-radius: 20px;
+            padding: 1.6rem 1.4rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+            border: 1px solid #e7edf2;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .card-item:hover {
+            border-color: #99c9c3;
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.08);
+            transform: translateY(-2px);
+        }
+        .card-item .card-icon {
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            color: #0f766e;
+            margin-bottom: 0.2rem;
+        }
+        .card-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.2rem;
+        }
+        .card-item p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #334155;
+        }
+        .card-item .tag {
+            align-self: flex-start;
+            background: #ecfdf5;
+            color: #0d9488;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+        /* 提示区 + 相关信息区 合并为双栏 */
+        .info-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 2rem 0 2.8rem;
+        }
+        @media (max-width: 680px) {
+            .info-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+        .tip-box, .related-box {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem 1.6rem;
+            border: 1px solid #dee9ef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .tip-box h4, .related-box h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3b6b63;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #d4e6e2;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .tip-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        .tip-box li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e6edf2;
+            font-size: 0.95rem;
+            color: #1e293b;
+            display: flex;
+            gap: 0.6rem;
+            align-items: baseline;
+        }
+        .tip-box li::before {
+            content: "→";
+            color: #0d9488;
+            font-weight: 600;
+        }
+        .related-box p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #1e293b;
+            margin-bottom: 0.8rem;
+        }
+        .related-box .link-sentence {
+            background: #f0f6fa;
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            border-left: 3px solid #0d9488;
+        }
+        .related-box .link-sentence a {
+            color: #0d9488;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px dotted #5fa8a0;
+        }
+        .related-box .link-sentence a:hover {
+            border-bottom: 2px solid #0f766e;
+        }
+        /* FAQ 摘要（精简） */
+        .faq-digest {
+            background: #f1f7f9;
+            border-radius: 18px;
+            padding: 1.6rem 1.8rem;
+            margin: 1.5rem 0 2.2rem;
+            border: 1px solid #cfe2de;
+        }
+        .faq-digest h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #0d5c56;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .faq-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem 0.5rem;
+            padding: 0.2rem 0;
+        }
+        .faq-item .q {
+            font-weight: 600;
+            color: #0f172a;
+            min-width: 80px;
+        }
+        .faq-item .a {
+            color: #334155;
+            font-size: 0.9rem;
+        }
+        .faq-item .a a {
+            color: #0d9488;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .faq-item .a a:hover {
+            color: #0b5e58;
+        }
+        /* 底部 */
+        .footer-note {
+            text-align: center;
+            color: #62748a;
+            font-size: 0.8rem;
+            border-top: 1px solid #dae3e9;
+            padding-top: 1.8rem;
+            margin-top: 1rem;
+            letter-spacing: 0.3px;
+        }
+        .footer-note .em {
+            color: #0d9488;
+        }
+        /* 响应式微调 */
+        @media (max-width: 500px) {
+            .hero-note h1 {
+                font-size: 1.4rem;
+            }
+            .hero-note {
+                padding: 1.2rem 1.2rem;
+            }
+            .card-item {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <!-- 顶部标识 -->
+    <div class="top-identity">
+        <span class="badge">hth</span>
+        <span class="label">知识库 · 入口页</span>
+        <span style="margin-left: auto; font-size:0.8rem; color:#5d7f8c;">再次访问 · 持续关注</span>
+    </div>
+
+    <!-- Hero 说明区：从再次访问、收藏角度 -->
+    <div class="hero-note">
+        <h1><span>hth</span> 知识库 · 目录式入口</h1>
+        <p>本页面为 <strong>持续关注与再次访问</strong> 而设计。无论你是初次接触，还是希望快速回到 <a href="https://space-main-hth.com" style="color:#0d9488; font-weight:600; text-decoration: underline;">hth</a> 的核心信息空间，这里提供结构化的卡片索引、操作提示与常见路径说明。将当前页面加入书签，即可随时调取关键参考。</p>
+        <div class="meta-line">
+            <span>📌 收藏建议：浏览器书签或笔记应用内链</span>
+            <span>🔄 更新标记：<i>2025 · 持续维护</i></span>
+        </div>
+    </div>
+
+    <!-- 网格卡片 —— 目录感布局 -->
+    <div class="grid-cards">
+        <div class="card-item">
+            <div class="card-icon">📋</div>
+            <h3>站点概览</h3>
+            <p>包含项目背景、功能索引与版本记录。适合快速了解 <strong>hth</strong> 所涉及的内容边界。</p>
+            <span class="tag">基础目录</span>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">🧩</div>
+            <h3>场景与路径</h3>
+            <p>从配置、查询到协作，梳理典型使用流程。每个场景附带推荐操作节点。</p>
+            <span class="tag">流程参考</span>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">📎</div>
+            <h3>相关资源</h3>
+            <p>文档、工具链接、外部参考。保持更新的聚合列表，便于二次检索。</p>
+            <span class="tag">外部索引</span>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">🔖</div>
+            <h3>版本与记录</h3>
+            <p>变更摘要、计划事项。此处仅记录客观节点，便于回溯上下文。</p>
+            <span class="tag">归档</span>
+        </div>
+    </div>
+
+    <!-- 提示区 + 相关信息区 -->
+    <div class="info-panel">
+        <div class="tip-box">
+            <h4>📌 再次访问提示</h4>
+            <ul>
+                <li>建议将此页添加至浏览器书签栏，或使用笔记工具保存直链。</li>
+                <li>若需快速定位至主站点，可直接在地址栏输入 <strong>space-main-hth.com</strong>。</li>
+                <li>定期查看卡片区域是否有新内容标记，或关注 <strong>更新记录</strong> 部分。</li>
+                <li>移动端可点击“分享” → “添加到主屏幕”，获得类应用入口。</li>
+            </ul>
+        </div>
+        <div class="related-box">
+            <h4>🔗 相关信息</h4>
+            <p>主站点承载了更完整的内容结构，包括详细文档、社区讨论与工具集成。以下句子包含直接链接：</p>
+            <div class="link-sentence">
+                如果你需要返回主知识空间，请直接使用 <a href="https://space-main-hth.com">hth</a> 直达；后续所有更新均以该站点为基准。
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.85rem; color: #4b6580;">其他辅助入口：通过项目文档、RSS 订阅（如有）或内部工单系统均可获取同步信息。</p>
+        </div>
+    </div>
+
+    <!-- FAQ 摘要  -->
+    <div class="faq-digest">
+        <h4>❓ 常见问题摘要</h4>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <span class="q">如何收藏？</span>
+                <span class="a">浏览器快捷键 Ctrl+D / Cmd+D，或使用第三方收藏夹工具。</span>
+            </div>
+            <div class="faq-item">
+                <span class="q">内容多久更新？</span>
+                <span class="a">主站点不定期迭代，此入口页会同步更新摘要与卡片指向。</span>
+            </div>
+            <div class="faq-item">
+                <span class="q">移动端适配？</span>
+                <span class="a">本页面采用响应式布局，主站点同样支持移动端浏览。更多细节可参考 <a href="https://space-main-hth.com">hth</a> 内的说明。</span>
+            </div>
+            <div class="faq-item">
+                <span class="q">是否有离线版本？</span>
+                <span class="a">暂不提供离线包。建议保持网络连接，或使用浏览器“保存页面”功能。</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer-note">
+        <span class="em">hth</span> · 知识库入口 · 基于再次访问与持续关注设计<br>
+        当前页面仅作索引与提示，完整内容请访问主站点。
+    </div>
+</div>
+</body>
+</html>
